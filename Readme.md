@@ -10,7 +10,6 @@
    `docker ps | grep fpm`  
    copy id (first column)  
    `docker exec -it <id> bash`  
-   `cd /var/www/laravel-code-example`
 4. **Create .env file**  
    `cp .env.example .env`
 5. **Generate laravel key**  
