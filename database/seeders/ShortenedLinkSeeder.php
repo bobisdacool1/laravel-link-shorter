@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\ShortenedLink;
 use Illuminate\Database\Seeder;
 
 class ShortenedLinkSeeder extends Seeder
@@ -13,6 +14,6 @@ class ShortenedLinkSeeder extends Seeder
      */
     public function run()
     {
-        //
+        ShortenedLink::factory()->count(50)->create();
     }
 }

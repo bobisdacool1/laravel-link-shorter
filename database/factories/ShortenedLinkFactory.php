@@ -14,7 +14,8 @@ class ShortenedLinkFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'short_link_id' => $this->faker->unique()->lexify('????????'),
+            'full_link' => $this->faker->url(),
         ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Database\Factories\ShortenedLinkFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -9,15 +10,7 @@ use Illuminate\Support\Str;
 class ShortenedLink extends Model
 {
     use HasFactory;
-
     protected $primaryKey = 'short_link_id';
-
-    public function __construct()
-    {
-        parent::__construct();
-
-        //$this->short_link = $this->generateUniqueShortLink();
-    }
 
     public function generateUniqueShortLinkId(): string
     {
@@ -29,5 +22,10 @@ class ShortenedLink extends Model
         }
 
         return $shortString;
+    }
+
+    protected static function newFactory(): ShortenedLinkFactory
+    {
+        return ShortenedLinkFactory::new();
     }
 }
