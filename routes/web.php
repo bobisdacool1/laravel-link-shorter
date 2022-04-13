@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ShortenedLinkController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +16,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::controller(ShortenedLinkController::class)->group(function () {
+    Route::get('/link/create', 'create')->name('link.create');
+    Route::post('/link/store', 'store')->name('link.store');
+    Route::get('/s/{shortLinkId}', 'redirectToFullLink')->name('link.redirect');
 });
