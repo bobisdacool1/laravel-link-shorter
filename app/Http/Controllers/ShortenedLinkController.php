@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreShortenedLinkRequest;
 use App\Models\ShortenedLink;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 
 class ShortenedLinkController extends Controller
@@ -16,33 +16,25 @@ class ShortenedLinkController extends Controller
             ->view('links.create');
     }
 
-    public function store(StoreShortenedLinkRequest $request): JsonResponse
+    public function store(StoreShortenedLinkRequest $request): JsonResource
     {
         $request->validated();
 
         $shortedLink = new ShortenedLink();
-        $shortedLinkId =  $shortedLink->generateUniqueShortLinkId();
+        $shortedLinkId = $shortedLink->generateUniqueShortLinkId();
 
         $shortedLink->full_link = $request->input('full_link');
         $shortedLink->short_link_id = $shortedLinkId;
+        $shortedLink->saveOrFail();
 
-        $responseData = [];
-
-        if ($shortedLink->save()) {
-            $responseData = [
-                'status' => 'ok',
-                'data' => [
-                    'short_link' => route('link.redirect', ['shortLinkId' => $shortedLinkId]),
-                ],
-            ];
-        }
-
-        return response()->json($responseData);
+        return new JsonResource([
+            'short_link' => route('link.redirect', ['shortLinkId' => $shortedLinkId]),
+        ]);
     }
 
     public function redirectToFullLink(string $shortLinkId): RedirectResponse
     {
-        $shortenedLink = ShortenedLink::where('short_link_id', $shortLinkId)->first()   ;
+        $shortenedLink = ShortenedLink::where('short_link_id', $shortLinkId)->firstOrFail();
 
         return response()->redirectTo($shortenedLink->full_link);
     }

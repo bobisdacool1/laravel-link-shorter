@@ -1,6 +1,6 @@
-FROM php:8.1-fpm
+FROM php:8.2-fpm
 
-WORKDIR /var/www/profilancegroup
+WORKDIR /var/www/laravel-link-shorter
 ADD docker/php/conf.d /usr/local/etc/php/conf.d
 
 RUN apt-get update \
